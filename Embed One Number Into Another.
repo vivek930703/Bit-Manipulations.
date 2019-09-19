@@ -1,0 +1,37 @@
+/*
+    problem statement:
+    write a program to embed a number 'B' into a number 'A' between the bit position p && q;
+    where p <= q;
+    input  : four space separated integer A,B,p,q;
+    output : Output the number after embedding B into A between specified position.
+    
+    eg: 28 1 1 1
+    output : 30
+    
+    input: 3494 12 4 7
+    output: 3526
+*/
+
+int embed_numberB_into_numberA(int A,int B,int p,int q)
+{
+    int count_bits       =  (q - p + 1);
+    int extract_bit_seq  =  ( A >> p ) & ( (1 << count_bits) - 1); //2^5-1 = 31 = all the 5 bit set.
+    B = B & ( (1 << count_bits) - 1); //Truncating bit seq of B , upto count_bits only.
+    return ( (B ^ extract_bit_seq) << p ) ^ A;
+    /*
+    sending the bit sequence to original position and xoring with the number A.
+    which will give us the desired output.
+    due to this property: a^b^a = b;
+    */
+}
+
+#include <iostream>
+using namespace std;
+
+int main() {
+	int A,B,p,q;
+	cin >> A >> B >> p >> q;
+    int res = embed_numberB_into_numberA(A,B,p,q);
+    cout << res <<"\n";
+	return 0;
+}
